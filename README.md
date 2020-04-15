@@ -17,4 +17,4 @@ Wireframes and mockups are hosted on Figma [here](https://www.figma.com/file/uSw
 <img src="Drawing1.png">
 
 ## ERD
-<img src="LabourerERD.png">
+Check ERD on LucidChart [here](https://www.lucidchart.com/invitations/accept/fea3775f-ba3c-4686-b0b7-32138a24d362)
