@@ -17,4 +17,4 @@ Wireframes and mockups are hosted on Figma [here](https://www.figma.com/file/uSw
 <img src="Drawing1.png">
 
 ## ERD
-<img src="ERD.jpeg">
+<img src="LabourerERD.png">
