@@ -2,6 +2,9 @@
 This app provides a platform where clients and labourers can handle the entire process from labourer application to confirmation of
 completed work online in a collected format.
 
+## Functional Requirements
+See all requirements [here](https://github.com/mingwang168/Labour-Recruitment/wiki/Functional-Requirements-List).
+
 ## Tech Stack
 * React Frontend
 * ASP.NET Backend
