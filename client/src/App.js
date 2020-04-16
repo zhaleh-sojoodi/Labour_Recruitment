@@ -7,6 +7,9 @@ import AddJob from './views/client/AddJob';
 import ClientProfile from './views/client/ClientProfile';
 import PageNotFound from './views/PageNotFound';
 
+import './css/styles.css';
+import './css/extras.min.css';
+
 const App = () => {
     return (
     <>
