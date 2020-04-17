@@ -1,9 +1,9 @@
-﻿using roleDemo.Data;
-using roleDemo.ViewModels;
+﻿using roleDemo.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using roleDemo.Models.LabourerRecruitment;
 
 namespace roleDemo.Repositories {
     public class UserRepo {

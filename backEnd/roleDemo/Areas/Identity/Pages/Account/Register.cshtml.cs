@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using roleDemo.Data;
+using roleDemo.Models.LabourerRecruitment;
 
 namespace roleDemo.Areas.Identity.Pages.Account
 {
@@ -61,15 +61,6 @@ namespace roleDemo.Areas.Identity.Pages.Account
             [Required]
             [Display(Name = "Role")]
             public string Role { get; set; }
-
-            [Required]
-            [Display(Name = "Full Name")]
-            public string FullName { get; set; }
-            public string Availability { get; set; }
-            public string Skill { get; set; }
-            //public string Description { get; set; }
-            //public float Rating { get; set; }
-            //public bool IsAvailable { get; set; }
         }
 
         public void OnGet(string returnUrl = null)
