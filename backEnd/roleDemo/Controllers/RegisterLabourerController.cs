@@ -13,12 +13,12 @@ namespace roleDemo.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RegisterController : ControllerBase
+    public class RegisterLabourerController : ControllerBase
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public RegisterController(
+        public RegisterLabourerController(
     UserManager<IdentityUser> userManager,
     ApplicationDbContext context)
         {
@@ -40,6 +40,16 @@ namespace roleDemo.Controllers
                     Email = input.Email,
                     Password = input.Password,
                     Role = input.Role
+                });
+                _context.Labourers.Add(new Labourer()
+                {
+                    FullName = input.FullName,
+                    Email = input.Email,
+                    PassWord = input.Password,
+                    Description = "",
+                    Rating = 5.0f,
+                    IsAvailable = true,
+                    Availability = input.Availability
                 });
                 _context.SaveChanges();
                 return Ok(new { status = 200, title = "Registered successfully." });

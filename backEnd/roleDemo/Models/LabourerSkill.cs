@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace roleDemo.Models
 {
-    public class SysUser
+    public class LabourerSkill
     {
         [Key]
-        public string Email { get; set; }
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
-        public string Role { get; set; }
+        public int LabourerSkillID { get; set; }
+        public int LabourerID { get; set; }
+        public int SkillID { get; set; }
     }
 }
