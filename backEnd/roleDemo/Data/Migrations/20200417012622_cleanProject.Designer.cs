@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using roleDemo.Data;
 
 namespace roleDemo.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200417012622_cleanProject")]
+    partial class cleanProject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -182,8 +184,6 @@ namespace roleDemo.Data.Migrations
                     b.Property<int>("LabourerID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Availability");
-
                     b.Property<string>("Description");
 
                     b.Property<string>("Email")
@@ -194,29 +194,11 @@ namespace roleDemo.Data.Migrations
 
                     b.Property<bool>("IsAvailable");
 
-                    b.Property<string>("PassWord");
-
                     b.Property<float>("Rating");
 
                     b.HasKey("LabourerID");
 
                     b.ToTable("Labourers");
-                });
-
-            modelBuilder.Entity("roleDemo.Models.LabourerSkill", b =>
-                {
-                    b.Property<int>("LabourerSkillID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("LabourerID");
-
-                    b.Property<int>("SkillID");
-
-                    b.HasKey("LabourerSkillID");
-
-                    b.HasIndex("LabourerID");
-
-                    b.ToTable("LabourerSkill");
                 });
 
             modelBuilder.Entity("roleDemo.Models.SysUser", b =>
@@ -275,14 +257,6 @@ namespace roleDemo.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("roleDemo.Models.LabourerSkill", b =>
-                {
-                    b.HasOne("roleDemo.Models.Labourer")
-                        .WithMany("LabourerSkills")
-                        .HasForeignKey("LabourerID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

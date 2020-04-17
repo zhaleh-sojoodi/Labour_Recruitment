@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using roleDemo.Data;
 
 namespace roleDemo.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200416232558_addRole")]
+    partial class addRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,12 +179,61 @@ namespace roleDemo.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("roleDemo.Data.CustomUser", b =>
+                {
+                    b.Property<string>("UserName")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("FirstName")
+                        .IsRequired();
+
+                    b.Property<string>("LastName")
+                        .IsRequired();
+
+                    b.HasKey("UserName");
+
+                    b.ToTable("CustomUsers");
+                });
+
+            modelBuilder.Entity("roleDemo.Data.Invoice", b =>
+                {
+                    b.Property<int>("InvoiceID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<decimal>("Total");
+
+                    b.Property<string>("UserName");
+
+                    b.HasKey("InvoiceID");
+
+                    b.HasIndex("UserName");
+
+                    b.ToTable("Invoices");
+                });
+
+            modelBuilder.Entity("roleDemo.Data.Todo", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description")
+                        .IsRequired();
+
+                    b.Property<string>("IsComplete");
+
+                    b.Property<string>("UserName");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Todos");
+                });
+
             modelBuilder.Entity("roleDemo.Models.Labourer", b =>
                 {
                     b.Property<int>("LabourerID")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Availability");
 
                     b.Property<string>("Description");
 
@@ -194,29 +245,11 @@ namespace roleDemo.Data.Migrations
 
                     b.Property<bool>("IsAvailable");
 
-                    b.Property<string>("PassWord");
-
                     b.Property<float>("Rating");
 
                     b.HasKey("LabourerID");
 
                     b.ToTable("Labourers");
-                });
-
-            modelBuilder.Entity("roleDemo.Models.LabourerSkill", b =>
-                {
-                    b.Property<int>("LabourerSkillID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("LabourerID");
-
-                    b.Property<int>("SkillID");
-
-                    b.HasKey("LabourerSkillID");
-
-                    b.HasIndex("LabourerID");
-
-                    b.ToTable("LabourerSkill");
                 });
 
             modelBuilder.Entity("roleDemo.Models.SysUser", b =>
@@ -278,12 +311,12 @@ namespace roleDemo.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("roleDemo.Models.LabourerSkill", b =>
+            modelBuilder.Entity("roleDemo.Data.Invoice", b =>
                 {
-                    b.HasOne("roleDemo.Models.Labourer")
-                        .WithMany("LabourerSkills")
-                        .HasForeignKey("LabourerID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("roleDemo.Data.CustomUser", "CustomnUser")
+                        .WithMany("Invoices")
+                        .HasForeignKey("UserName")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }
