@@ -17,7 +17,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using roleDemo.Models.LabourerRecruitment;
-using roleDemo.Repositories;
 using roleDemo.ViewModels;
 
 namespace roleDemo.Controllers
