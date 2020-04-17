@@ -24,12 +24,12 @@ const SideNav = (props) => {
 
             {/* NOTE: We should check what TYPE of user is logged in before loading the correct links below here */}
             <ul className="nav flex-column">
-              <Link className="nav-item">
+              <li className="nav-item">
                 <Link className="nav-link" to='/dashboard'>
                   <i className="material-icons">dashboard</i>
                   <span>Dashboard</span>
                 </Link>
-              </Link>
+              </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/addjob">
                   <i className="material-icons">create</i>
