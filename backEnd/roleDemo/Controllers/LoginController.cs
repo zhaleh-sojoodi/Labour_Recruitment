@@ -46,8 +46,7 @@ namespace roleDemo.Controllers
         [Route("List")]
         // Since we have cookie authentication and Jwt authentication we must
         // specify that we want Jwt authentication here.
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme,
-         Roles = "Admin,Manager")]
+
         public JsonResult List()
         {
             var claim = HttpContext.User.Claims.ElementAt(0);
@@ -60,21 +59,10 @@ namespace roleDemo.Controllers
             return Json(todoList);
         }
 
-        // GET: api/Todo
-        [HttpGet]
-        [Route("Todo")]
-        // Since we have cookie authentication and Jwt authentication we must
-        // specify that we want Jwt authentication here.
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme,
-         Roles = "Admin,Manager,Customer")]
-        
 
         [HttpGet]
         [Route("User")]
-        // Since we have cookie authentication and Jwt authentication we must
-        // specify that we want Jwt authentication here.
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme,
- Roles = "Admin,Manager")]
+
         public async Task<ActionResult<IEnumerable<UserVM>>> GetUsers()
         {
             var claim = HttpContext.User.Claims.ElementAt(0);
