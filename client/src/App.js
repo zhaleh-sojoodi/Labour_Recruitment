@@ -9,6 +9,7 @@ import PageNotFound from './views/PageNotFound';
 
 import './css/styles.css';
 import './css/extras.min.css';
+import './css/custom.css';
 
 const App = () => {
     return (
