@@ -5,7 +5,12 @@ import Home from './views/Home';
 import Dashboard from './views/Dashboard';
 import AddJob from './views/client/AddJob';
 import ClientProfile from './views/client/ClientProfile';
+import LabourerProfile from './views/labourer/LabourerProfile';
 import PageNotFound from './views/PageNotFound';
+
+import './css/styles.css';
+import './css/extras.min.css';
+import './css/custom.css';
 
 const App = () => {
     return (
@@ -18,6 +23,9 @@ const App = () => {
         {/* Client Views */}
         <Route path='/addjob' exact render={props => <AddJob {...props} />} />
         <Route path='/profile/client' exact render={props => <ClientProfile {...props} />} />
+
+        {/* Labourer Views */}
+        <Route path='/profile/labourer' exact render={props => <LabourerProfile {...props} />} />
 
         <Route component={PageNotFound} />
     </Switch>
