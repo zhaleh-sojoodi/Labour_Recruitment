@@ -68,83 +68,7 @@ namespace roleDemo.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme,
          Roles = "Admin,Manager,Customer")]
         
-        public async Task<ActionResult<IEnumerable<Todo>>> GetTodos()
-        {
-            var claim = HttpContext.User.Claims.ElementAt(0);
-            string userName = claim.Value;
-            TodoRepo tdRepo = new TodoRepo(_context);
-            List<Todo> td = tdRepo.GetAllTodos(userName);
-            return  td;
-        }
-        // GET api/todot?id=5
-        [HttpGet]
-        [Route("Todot")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme,
- Roles = "Admin,Manager,Customer")]
-        public async Task<ActionResult<Todo>> GetTodo(int id)
-        {
-          //  var todo = await _context.Todos.FindAsync(id);
-            var claim = HttpContext.User.Claims.ElementAt(0);
-            string userName = claim.Value;
-            TodoRepo tdRepo = new TodoRepo(_context);
-            Todo td = tdRepo.GetTodo(id, userName);
-            if (td == null)
-            {
-                return NotFound();
-            }
 
-            return td;
-        }
-
-        [HttpPost]
-        [Route("Todo")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme,
- Roles = "Admin,Manager,Customer")]
-        public async Task<ActionResult<Todo>> PostTodo(Todo todo)
-        {
-            var claim = HttpContext.User.Claims.ElementAt(0);
-            string userName = claim.Value;
-            TodoRepo tdRepo = new TodoRepo(_context);
-            tdRepo.CreateTodo(userName, todo.Description, todo.IsComplete);
-
-            return CreatedAtAction("GetTodo(todo.ID)", new { id = todo.ID }, todo);
-           }
-
-        // PUT: api/Todo
-        [HttpPut]
-        [Route("Todo")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme,
- Roles = "Admin,Manager,Customer")]
-        public async Task<IActionResult> PutTodo(Todo todo)
-        {
-            var claim = HttpContext.User.Claims.ElementAt(0);
-            string userName = claim.Value;
-            TodoRepo tdRepo = new TodoRepo(_context);
-            tdRepo.Update(todo.ID, userName, todo.Description, todo.IsComplete);
-            return NoContent();
-        }
-
-        // DELETE: api/Todo?id=5
-        [HttpDelete]
-        [Route("Todo")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme,
- Roles = "Admin,Manager,Customer")]
-        public async Task<ActionResult<Todo>> DeleteTodo(int id)
-        {
-            var claim = HttpContext.User.Claims.ElementAt(0);
-            string userName = claim.Value;
-
-            var todo = await _context.Todos.FindAsync(id);
-            if (todo == null || todo.UserName!=userName)
-            {
-                return NotFound();
-            }
-
-            _context.Todos.Remove(todo);
-            await _context.SaveChangesAsync();
-            return new ObjectResult(todo);
-           // return todo;
-        }
         [HttpGet]
         [Route("User")]
         // Since we have cookie authentication and Jwt authentication we must
@@ -161,21 +85,6 @@ namespace roleDemo.Controllers
             return asList;
         }
 
-        [HttpGet]
-        [Route("UserRole")]
-        // Since we have cookie authentication and Jwt authentication we must
-        // specify that we want Jwt authentication here.
-        // Get /userrole?userName=mingming@gmail.com
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme,
- Roles = "Admin,Manager")]
-        public async Task<ActionResult<IEnumerable<RoleVM>>> Detail(string userName)
-        {
-            UserRoleRepo userRoleRepo = new UserRoleRepo(_serviceProvider);
-            var roles = await userRoleRepo.GetUserRoles(userName);
-            // ViewBag.UserName = userName;
-            List<RoleVM> roless = roles.ToList();
-            return roless;
-        }
 
         [HttpPost]
         public async Task<JsonResult> OnPostAsync([FromBody]LoginVM loginVM)
@@ -194,9 +103,12 @@ namespace roleDemo.Controllers
 
                     if (user != null)
                     {
+                        var sysuser = _context.SysUsers.FirstOrDefault(u => u.Email == loginVM.Email);
                         var tokenString = GenerateJSONWebToken(user);
+
                         jsonResponse.token = tokenString;
                         jsonResponse.status = "OK";
+                        jsonResponse.role = sysuser.Role;
                         return Json(jsonResponse);
                     }
                 }
@@ -251,9 +163,6 @@ namespace roleDemo.Controllers
                 signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-        private bool TodoExists(int id)
-        {
-            return _context.Todos.Any(e => e.ID == id);
-        }
+
     }
 }

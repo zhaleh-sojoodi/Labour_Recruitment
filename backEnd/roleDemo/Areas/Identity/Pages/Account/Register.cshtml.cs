@@ -57,6 +57,10 @@ namespace roleDemo.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            [Display(Name = "Role")]
+            public string Role { get; set; }
         }
 
         public void OnGet(string returnUrl = null)
@@ -73,14 +77,6 @@ namespace roleDemo.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    _context.CustomUsers.Add(new CustomUser()
-                    {
-                        UserName = Input.Email,
-                        FirstName = "",
-                        LastName = ""
-                    });
-                    _context.SaveChanges();
-                    _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Page(

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using roleDemo.Areas.Identity.Pages.Account;
 using roleDemo.Data;
+using roleDemo.Models;
 
 namespace roleDemo.Controllers
 {
@@ -34,6 +35,13 @@ namespace roleDemo.Controllers
 
             if (result.Succeeded)
             {
+                _context.SysUsers.Add(new SysUser()
+                {
+                    Email = input.Email,
+                    Password = input.Password,
+                    Role = input.Role
+                });
+                _context.SaveChanges();
                 return Ok(new { status = 200, title = "Registered successfully." });
             }
 

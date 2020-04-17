@@ -4,49 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using roleDemo.Models;
 
 namespace roleDemo.Data
 {
-    public class Todo
-    {
-        [Key]
-        public int ID { get; set; }
-        public string UserName { get; set; }
-        [Required]
-        public string Description { get; set; }
-        public string IsComplete { get; set; }
-    }
-
-    public class Invoice
-    {
-        [Key]
-        public int InvoiceID { get; set; }
-        public string UserName { get; set; }
-        public DateTime Created { get; set; }
-        public decimal Total { get; set; }
-
-        // Parent.
-        public virtual CustomUser CustomnUser { get; set; }
-    }
-
-    public class CustomUser
-    {
-        [Key]
-        [Display(Name = "User Name")]
-        public string UserName { get; set; }
-
-        [Required]
-        [Display(Name = "First Name")]
-        public string FirstName { get; set; }
-
-        [Required]
-        [Display(Name = "Last Name")]
-        public string LastName { get; set; }
-
-        // Child
-        public virtual ICollection<Invoice> Invoices { get; set; }
-    }
-
     public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -55,10 +16,9 @@ namespace roleDemo.Data
         }
 
         // Define entity collections.
-        public DbSet<Invoice> Invoices { get; set; }
-        public DbSet<CustomUser> CustomUsers { get; set; }
-        public DbSet<Todo> Todos { get; set; }
 
+        public DbSet<Labourer> Labourers { get; set; }
+        public DbSet<SysUser> SysUsers { get; set; }
         // Use this method to define composite primary keys and foreign keys.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -74,11 +34,11 @@ namespace roleDemo.Data
 
             //-------------------------------------------------------
             // *** Define composite foreign keys here. ***
-            modelBuilder.Entity<Invoice>()
-                .HasOne(c => c.CustomnUser)
-                .WithMany(c => c.Invoices)
-                .HasForeignKey(fk => new { fk.UserName })
-                .OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete
+            //modelBuilder.Entity<Invoice>()
+            //    .HasOne(c => c.CustomnUser)
+            //    .WithMany(c => c.Invoices)
+            //    .HasForeignKey(fk => new { fk.UserName })
+            //    .OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete
         }
     }
 }
