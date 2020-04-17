@@ -6,5 +6,6 @@ using System.Threading.Tasks;
 namespace roleDemo.ViewModels {
     public class UserVM {
         public string Email { get; set; }
+        public string Role { get; set; }
     }
 }
