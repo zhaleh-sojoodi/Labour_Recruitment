@@ -43,9 +43,7 @@ namespace roleDemo.Controllers
                     Password = input.User.Password,
                     Role = input.User.Role
                 };
-                _context.SystemUser.Add(sysUser);
-                _context.SaveChanges();
-
+               
                 Labourer labourer = new Labourer
                 {
                     LabourerFirstName = input.Labourer.LabourerFirstName,
@@ -54,18 +52,28 @@ namespace roleDemo.Controllers
                     LabourerEmail = input.User.Email,
                     IsAvailable = true,
                 };
+                _context.SystemUser.Add(sysUser);
                 sysUser.Labourer.Add(labourer);
                 _context.SaveChanges();
 
                 foreach (string day in input.AvailableDays)
                 {
                     Availability availability = _context.Availability.Where(a => a.AvailabilityDay == day).FirstOrDefault();
-                    AvailabilityLabourer availabilityLabourer = new AvailabilityLabourer {
-                        AvailabilityId = availability.AvailabilityId,
-                        LabourerId = labourer.LabourerId
-                    };
-                    _context.AvailabilityLabourer.Add(availabilityLabourer);
-                    _context.SaveChanges();
+                    if (availability != null)
+                    {
+                        AvailabilityLabourer availabilityLabourer = new AvailabilityLabourer
+                        {
+                            AvailabilityId = availability.AvailabilityId,
+                            LabourerId = labourer.LabourerId
+                        };
+                        _context.AvailabilityLabourer.Add(availabilityLabourer);
+                        _context.SaveChanges();
+                    }
+                    else
+                    {
+                        return BadRequest(new { status = 400, errors = "Available day is not valid" });
+                    }
+                    
                 }
                 return Ok(new { status = 200, title = "Registered successfully." });
             }
