@@ -13,5 +13,7 @@ namespace roleDemo.ViewModels
         public Labourer Labourer { get; set; }
 
         public IEnumerable<string> AvailableDays { get; set; }
+
+        public IEnumerable<int> SkillIds { get; set; }
     }
 }

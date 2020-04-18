@@ -75,6 +75,20 @@ namespace roleDemo.Controllers
                     }
                     
                 }
+
+                foreach (int skillId in input.SkillIds)
+                {
+                   
+                    LabourerSkill labourerSkill = new LabourerSkill
+                    {
+                        SkillId = skillId,
+                        LabourerId = labourer.LabourerId
+                    };
+                    _context.LabourerSkill.Add(labourerSkill);
+                    _context.SaveChanges();
+   
+                }
+
                 return Ok(new { status = 200, title = "Registered successfully." });
             }
 
