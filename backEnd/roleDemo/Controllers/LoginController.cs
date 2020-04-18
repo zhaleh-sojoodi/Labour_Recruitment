@@ -41,24 +41,6 @@ namespace roleDemo.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        [Route("List")]
-        // Since we have cookie authentication and Jwt authentication we must
-        // specify that we want Jwt authentication here.
-
-        public JsonResult List()
-        {
-            var claim = HttpContext.User.Claims.ElementAt(0);
-            string userName = claim.Value;
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            JArray todoList = new JArray();
-            todoList.Add("Wash car");
-            todoList.Add("Do laundry");
-            return Json(todoList);
-        }
-
-
         [HttpPost]
         public async Task<JsonResult> OnPostAsync([FromBody]LoginVM loginVM)
         {
@@ -82,6 +64,7 @@ namespace roleDemo.Controllers
                         jsonResponse.token = tokenString;
                         jsonResponse.status = "OK";
                         jsonResponse.role = sysuser.Role;
+                        jsonResponse.email = sysuser.Email;
                         return Json(jsonResponse);
                     }
                 }

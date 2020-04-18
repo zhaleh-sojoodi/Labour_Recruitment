@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using labourRecruitment.Models.LabourRecruitment;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -17,8 +16,6 @@ namespace roleDemo.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ApplicationDbContext _context;
-
-
 
         public RegisterLabourerController(
                 UserManager<IdentityUser> userManager,
