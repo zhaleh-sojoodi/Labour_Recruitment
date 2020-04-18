@@ -71,6 +71,7 @@ namespace roleDemo.Controllers
                     }
                     else
                     {
+                        await _userManager.DeleteAsync(user);
                         return BadRequest(new { status = 400, errors = "Available day is not valid" });
                     }
                     
@@ -78,7 +79,6 @@ namespace roleDemo.Controllers
 
                 foreach (int skillId in input.SkillIds)
                 {
-                   
                     LabourerSkill labourerSkill = new LabourerSkill
                     {
                         SkillId = skillId,
@@ -88,7 +88,7 @@ namespace roleDemo.Controllers
                     _context.SaveChanges();
    
                 }
-
+               
                 return Ok(new { status = 200, title = "Registered successfully." });
             }
 
