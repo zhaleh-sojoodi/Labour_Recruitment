@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using roleDemo.Models.LabourerRecruitment;
 
-namespace roleDemo.Migrations
+namespace labourRecruitment.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200417091505_IntialCreate")]
-    partial class IntialCreate
+    [Migration("20200418000349_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
