@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using roleDemo.Areas.Identity.Pages.Account;
-using roleDemo.Data;
 using roleDemo.Models;
+using roleDemo.Models.LabourerRecruitment;
+using roleDemo.ViewModels;
 
 namespace roleDemo.Controllers
 {
@@ -18,39 +20,42 @@ namespace roleDemo.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ApplicationDbContext _context;
 
+
+
         public RegisterLabourerController(
-    UserManager<IdentityUser> userManager,
-    ApplicationDbContext context)
+                UserManager<IdentityUser> userManager,
+                ApplicationDbContext context)
         {
             _userManager = userManager;
             _context = context;
         }
 
         [HttpPost]
-        public async Task<IActionResult> OnPostAsync([FromBody]RegisterModel.InputModel input)
+        public async Task<IActionResult> OnPostAsync([FromBody]LabourerRegisterVM input)
         {
-            var user = new IdentityUser { UserName = input.Email.ToLower(), Email = input.Email };
-            var result = await _userManager.CreateAsync(user, input.Password);
+            var user = new IdentityUser { UserName = input.User.Email.ToLower(), Email = input.User.Email };
+            var result = await _userManager.CreateAsync(user, input.User.Password);
             var errorList = new List<string>();
 
             if (result.Succeeded)
             {
-                _context.SysUsers.Add(new SysUser()
+                SystemUser sysUser = new SystemUser()
                 {
-                    Email = input.Email,
-                    Password = input.Password,
-                    Role = input.Role
-                });
-                _context.Labourers.Add(new Labourer()
+                    Email = input.User.Email,
+                    Password = input.User.Password,
+                    Role = input.User.Role
+                };
+                Labourer labourer = new Labourer
                 {
-                    FullName = input.FullName,
-                    Email = input.Email,
-                    PassWord = input.Password,
-                    Description = "",
-                    Rating = 5.0f,
+                    LabourerFirstName = input.Labourer.LabourerFirstName,
+                    LabourerLastName = input.Labourer.LabourerLastName,
+                    LabourerSin = input.Labourer.LabourerSin,
+                    LabourerEmail = input.User.Email,
                     IsAvailable = true,
-                    Availability = input.Availability
-                });
+                };
+
+                _context.SystemUser.Add(sysUser);
+                sysUser.Labourer.Add(labourer);
                 _context.SaveChanges();
                 return Ok(new { status = 200, title = "Registered successfully." });
             }
@@ -63,4 +68,5 @@ namespace roleDemo.Controllers
             return BadRequest(new { status = 400, errors = errorList });
         }
     }
+
 }
