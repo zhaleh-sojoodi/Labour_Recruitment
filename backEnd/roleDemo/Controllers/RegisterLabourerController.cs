@@ -40,7 +40,6 @@ namespace roleDemo.Controllers
                 SystemUser sysUser = new SystemUser()
                 {
                     Email = input.User.Email,
-                    Password = input.User.Password,
                     Role = input.User.Role
                 };
                
@@ -72,6 +71,9 @@ namespace roleDemo.Controllers
                     else
                     {
                         await _userManager.DeleteAsync(user);
+                        _context.Labourer.Remove(labourer);
+                        _context.SystemUser.Remove(sysUser);
+                        _context.SaveChanges();
                         return BadRequest(new { status = 400, errors = "Available day is not valid" });
                     }
                     
@@ -94,7 +96,7 @@ namespace roleDemo.Controllers
 
             foreach (IdentityError error in result.Errors)
             {
-                errorList.Add(error.Description);
+               errorList.Add(error.Description);
             }
 
             return BadRequest(new { status = 400, errors = errorList });
