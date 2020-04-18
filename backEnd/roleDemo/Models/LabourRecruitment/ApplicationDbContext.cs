@@ -372,7 +372,7 @@ namespace labourRecruitment.Models.LabourRecruitment
             modelBuilder.Entity<SystemUser>(entity =>
             {
                 entity.HasKey(e => e.UserId)
-                    .HasName("PK__SystemUs__B9BE370F38359059");
+                    .HasName("PK__SystemUs__B9BE370F34B081F3");
 
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 

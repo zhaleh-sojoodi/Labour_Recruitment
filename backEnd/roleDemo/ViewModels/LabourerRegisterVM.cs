@@ -11,5 +11,7 @@ namespace roleDemo.ViewModels
         public SystemUser User { get; set; }
 
         public Labourer Labourer { get; set; }
+
+        public IEnumerable<string> AvailableDays { get; set; }
     }
 }

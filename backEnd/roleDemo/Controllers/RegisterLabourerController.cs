@@ -32,7 +32,7 @@ namespace roleDemo.Controllers
         public async Task<IActionResult> OnPostAsync([FromBody]LabourerRegisterVM input)
         {
             var user = new IdentityUser { UserName = input.User.Email.ToLower(), Email = input.User.Email };
-            var result = await _userManager.CreateAsync(user);
+            var result = await _userManager.CreateAsync(user, input.User.Password);
             var errorList = new List<string>();
 
             if (result.Succeeded)
@@ -40,8 +40,12 @@ namespace roleDemo.Controllers
                 SystemUser sysUser = new SystemUser()
                 {
                     Email = input.User.Email,
+                    Password = input.User.Password,
                     Role = input.User.Role
                 };
+                _context.SystemUser.Add(sysUser);
+                _context.SaveChanges();
+
                 Labourer labourer = new Labourer
                 {
                     LabourerFirstName = input.Labourer.LabourerFirstName,
@@ -50,10 +54,19 @@ namespace roleDemo.Controllers
                     LabourerEmail = input.User.Email,
                     IsAvailable = true,
                 };
-
-                _context.SystemUser.Add(sysUser);
                 sysUser.Labourer.Add(labourer);
                 _context.SaveChanges();
+
+                foreach (string day in input.AvailableDays)
+                {
+                    Availability availability = _context.Availability.Where(a => a.AvailabilityDay == day).FirstOrDefault();
+                    AvailabilityLabourer availabilityLabourer = new AvailabilityLabourer {
+                        AvailabilityId = availability.AvailabilityId,
+                        LabourerId = labourer.LabourerId
+                    };
+                    _context.AvailabilityLabourer.Add(availabilityLabourer);
+                    _context.SaveChanges();
+                }
                 return Ok(new { status = 200, title = "Registered successfully." });
             }
 
