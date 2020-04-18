@@ -23,7 +23,7 @@ const Home = (props) => {
         </div>
 
         <div className="col-6 col-xl-10 text-right">
-            <a href="/" className="text-secondary mr-3">Sign Up</a>
+            <a href="/start" className="text-secondary mr-3">Sign Up</a>
             <a href="/" style={{textDecoration:'none'}}>
                 <span className="rounded bg-primary py-2 px-3 text-white">Login</span>
             </a>
